@@ -2,6 +2,7 @@
 #include <WiFiClient.h>
 #include <ESP8266HTTPClient.h>
 #include <ESP8266WiFi.h>
+#include <ESP8266Ping.h>
 
 const char* ssid = "C.I.A Surveillance Van";
 const char* password = "1Ax8IXdbX3h5";
@@ -36,14 +37,18 @@ void loop() {
         //Specifiy content-type header
         http.addHeader("Content-Type", "application/json");
 
-        //Send HTTP POST request
+        //Ping google and get the time it takes to return ping
         char buffer[256];
-        int ping_ms = 17.85;
+        int ping = Ping.ping("www.google.com");
+        int ping_ms = Ping.averageTime();
+        Serial.println(ping_ms);
         sprintf(buffer, "{\"p\":%d}", ping_ms);
-       int httpResponceCode = http.POST((const uint8_t*)buffer, strlen(buffer));
-       Serial.println("http responce code:");
-       Serial.println(httpResponceCode);
-       delay(1000);
+        
+        //Send HTTP POST request
+        int httpResponceCode = http.POST((const uint8_t*)buffer, strlen(buffer));
+        Serial.println("http responce code:");
+        Serial.println(httpResponceCode);
+        delay(1000);
 
         //Free resources
         http.end();
