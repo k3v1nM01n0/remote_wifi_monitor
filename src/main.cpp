@@ -8,7 +8,7 @@ const char* ssid = "wifi_name";
 const char* password = "wifi_pass";
 
 //Your domain name with url path or ip adress with path
-const char* server_name = "http://127.0.0.1:4500/status";
+const char* server_name = "http://192.168.0.1:4500/status";
 
 
 void setup() {
