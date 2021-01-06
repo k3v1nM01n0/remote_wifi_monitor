@@ -4,11 +4,11 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266Ping.h>
 
-const char* ssid = "C.I.A Surveillance Van";
-const char* password = "1Ax8IXdbX3h5";
+const char* ssid = "wifi_name";
+const char* password = "wifi_pass";
 
 //Your domain name with url path or ip adress with path
-const char* server_name = "http://51.11.50.70:4500/status";
+const char* server_name = "http://127.0.0.1:4500/status";
 
 
 void setup() {
@@ -41,14 +41,14 @@ void loop() {
         char buffer[256];
         int ping = Ping.ping("www.google.com");
         int ping_ms = Ping.averageTime();
-        Serial.println(ping_ms);
         sprintf(buffer, "{\"p\":%d}", ping_ms);
-        
+        Serial.println(buffer);
+
         //Send HTTP POST request
         int httpResponceCode = http.POST((const uint8_t*)buffer, strlen(buffer));
         Serial.println("http responce code:");
         Serial.println(httpResponceCode);
-        delay(1000);
+        delay(60000);
 
         //Free resources
         http.end();
